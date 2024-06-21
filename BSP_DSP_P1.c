@@ -30,5 +30,38 @@ figure
 stem(VF,X1)
 xlabel('W');
 ylabel('f(W)');
-title('Transformada rapida de Fourier')
+title('Transformada rápida de Fourier')
 grid on
+%---------------------------Variable de control---------------------------%
+a = 1;
+%----------------------------Filtro Pasabajos-----------------------------%
+if a == 1
+%-------------------------Diseño filtro pasabajos-------------------------%
+wc = 5.4; %Frecuencia de corte
+filter = ((VF>=-wc)&(VF<=wc).*(1))+((VF<-wc)&(VF>wc).*(0));
+plot(VF,filter,'linewidth',3);
+title('filtro pasa bajas y Transformada rapida de Fourier');
+xlabel('Hz');
+ylabel('pulse')
+hold on 
+grid on
+%-------------------------Aplicación del filtro Pasabajos-----------------%
+figure
+subplot(2,1,1)
+low_filter = X.*fftshift(filter);
+low_filter2 = fftshift(abs(low_filter).^2);
+stem(VF,mag2db(low_filter2),'r');
+title('Transformada rapida de Fourier Senal filtrada');
+xlabel('W');
+ylabel('F(w)')
+hold on 
+grid on
+%----------------------Transformada inversa de Fourier--------------------%
+subplot(2,1,2)
+invert_transform = ifft(low_filter);
+plot(t,real(invert_transform));
+grid on
+title('Señal Fitrada en tiempo')
+xlabel('seg')
+ylabel('Amplitd')
+end
