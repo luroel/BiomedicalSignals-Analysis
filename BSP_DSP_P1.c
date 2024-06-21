@@ -25,3 +25,10 @@ X1 = fftshift(X1);
 %------------------------Frecuencia normalizada---------------------------%
 vec_frec = linspace(-1,1,length(X1));
 VF = vec_frec.*(Fs)/2;
+%----------------------Transformada de Fourier Visualización------------------%
+figure
+stem(VF,X1)
+xlabel('W');
+ylabel('f(W)');
+title('Transformada rapida de Fourier')
+grid on
