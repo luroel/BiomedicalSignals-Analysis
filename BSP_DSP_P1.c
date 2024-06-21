@@ -171,3 +171,15 @@ title('Se?al Fitrada en tiempo')
 xlabel('seg')
 ylabel('Amplitd')
 end
+
+%------------------------Creacion de las ventanas-------------------------%
+w = 280; %tama?o de la ventana
+[S,F,t1] = spectrogram(real(invert_transform),rectwin(w),w-1,4096);
+figure
+f1 = linspace(0,0.5,2049).*(Fs);
+image(t,f1,real(mag2db(abs(S))));
+axis xy;
+%axis([0 45 0 100]);
+title('Espectrograma de frecuencias se?al filtrada');
+ylabel('Frecuencia');
+xlabel('Tiempo');
