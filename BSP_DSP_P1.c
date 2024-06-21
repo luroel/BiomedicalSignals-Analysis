@@ -15,3 +15,5 @@ xlabel('Tiempo (s)')
 ylabel('Amplitud')
 title('Se?al Electrocardiograma')
 grid on
+%----------------------Remueve componente en DC---------------------------%
+S = HR_s01-mean(HR_s01);
