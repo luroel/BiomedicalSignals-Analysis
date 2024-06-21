@@ -17,3 +17,11 @@ title('Se?al Electrocardiograma')
 grid on
 %----------------------Remueve componente en DC---------------------------%
 S = HR_s01-mean(HR_s01);
+%-------------------------Transformada de Fourier-------------------------%
+X = fft(S);
+X = transpose(X); %Voltea filas y columnas por que la fft da contraria
+X1 = abs(X).^2;
+X1 = fftshift(X1);
+%------------------------Frecuencia normalizada---------------------------%
+vec_frec = linspace(-1,1,length(X1));
+VF = vec_frec.*(Fs)/2;
