@@ -65,6 +65,7 @@ title('Señal Fitrada en tiempo')
 xlabel('seg')
 ylabel('Amplitd')
 end
+
 if a == 2
     %---------------------Diseño filtro altas-----------------------------%
 VF1 = vec_frec.*(Fs)/2;
@@ -99,3 +100,39 @@ title('Se?al Fitrada en tiempo')
 xlabel('seg')
 ylabel('Amplitd')
 end
+
+if a == 3
+   %----------------------Diseño filtro bandas----------------------------%
+wc = 2; %Frecuencia de corte
+wd = 5; %Limite de frecuencia
+filter = ((VF>=wc)&(VF<=wd).*(1))+((VF<wc)&(VF>wd).*(0));
+filter_2 = ((VF>=-wd)&(VF<=-wc).*(1))+((VF<-wc)&(VF>-wd).*(0));
+bandpass = filter+filter_2;
+plot(VF,bandpass,'linewidth',3);
+xlabel('tiempo');
+ylabel('pulse')
+title('filtro pasa bandas');
+
+hold on 
+grid on
+%---------------------Aplicación del filtro pasa bandas-------------------%
+figure
+subplot(2,1,1)
+band_filter = X.*fftshift(bandpass);
+band_filter2 = abs(band_filter).^2;
+stem(VF,fftshift(band_filter2),'r');
+title('Transformada rapida de Fourier Se?al filtrada');
+xlabel('W');
+ylabel('F(w)')
+hold on 
+grid on
+%-------------------Transformada inversa de Fourier-----------------------%
+subplot(2,1,2)
+invert_transform = ifft(band_filter);
+plot(t,real(invert_transform));
+grid on
+title('Se?al Fitrada en tiempo')
+xlabel('seg')
+ylabel('Amplitd') 
+end
+
