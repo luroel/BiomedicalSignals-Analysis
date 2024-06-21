@@ -136,3 +136,38 @@ xlabel('seg')
 ylabel('Amplitd') 
 end
 
+if a == 4
+    %------------------Diseño filtro rechaza bandas-----------------------%
+wc = 10; %Frecuencia de corte
+wd = 60; %Limite de frecuencia
+filter = ((VF>=wc)&(VF<=wd).*(1))+((VF<wc)&(VF>wd).*(0));
+filter_2 = ((VF>=-wd)&(VF<=-wc).*(1))+((VF<-wc)&(VF>-wd).*(0));
+bandpass = filter+filter_2;
+r_bandas = 1-bandpass;
+plot(VF,r_bandas,'linewidth',3);
+title('');
+xlabel('tiempo');
+ylabel('pulse')
+title('filtro rechazabandas');
+hold on 
+grid on
+%--------------------Aplicación del filtro rechaza bandas-----------------%
+figure
+subplot(2,1,1)
+filtered = X.*fftshift(r_bandas);
+filtered2 = abs(filtered).^2;
+stem(VF,fftshift(filtered2),'r');
+title('Transformada rapida de Fourier Se?al filtrada');
+xlabel('W');
+ylabel('F(w)')
+hold on 
+grid on
+%---------------------Transformada inversa de Fourier---------------------%
+subplot(2,1,2)
+invert_transform = ifft(filtered);
+plot(t,real(invert_transform));
+grid on
+title('Se?al Fitrada en tiempo')
+xlabel('seg')
+ylabel('Amplitd')
+end
